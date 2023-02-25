@@ -1,0 +1,47 @@
+<p-table
+  styleClass="p-datatable-gridlines p-datatable-striped"
+  responsiveLayout="stack"
+  [value]="values"
+  [columns]="modelClass.getColumnsDefinitions()"
+>
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th
+        *ngFor="let col of columns"
+        [pSortableColumn]="col.value"
+        [pSortableColumnDisabled]="!col.sortable"
+      >
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          {{ col.header }}
+          <p-sortIcon *ngIf="col.sortable" [field]="col.value"></p-sortIcon>
+          <p-columnFilter
+            type="text"
+            [field]="col.value"
+            display="menu"
+            style="margin-left: auto"
+          ></p-columnFilter>
+        </div>
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-row let-columns="columns">
+    <tr>
+      <td *ngFor="let col of columns">
+        <span class="p-column-title">{{ col.header }}</span>
+        <ng-container *ngIf="col.pipe">
+          {{ row[col.value] | dynamicPipe : col.pipe : col.pipeArgs }}
+        </ng-container>
+        <ng-container *ngIf="!col.pipe">
+          {{ row[col.value] }}
+        </ng-container>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template></ng-template>
+</p-table>
