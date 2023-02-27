@@ -1,22 +1,8 @@
-import { Pipe } from "@angular/core";
 import "reflect-metadata";
-import {
-  modelPropertiesMetadataKey,
-  registerProperty,
-} from "./model-properties.decorator";
+import { ColumnOptions } from "../models/column-options.model";
 
-const columnMetadataKey = Symbol("column");
-
-interface ColumnOptions {
-  header: string;
-  sortable?: boolean;
-  pipe?: Pipe;
-  pipeArgs?: any[];
-}
-
-export interface ColumnDefinition extends ColumnOptions {
-  value: string;
-}
+export const modelPropertiesMetadataKey = Symbol("modelProperties");
+export const columnMetadataKey = Symbol("column");
 
 export function Column(opts: ColumnOptions) {
   return (target: any, propertyKey: string): void => {
@@ -25,29 +11,16 @@ export function Column(opts: ColumnOptions) {
   };
 }
 
-export function getColumnDefinition(
-  target: any,
-  propertyKey: string
-): ColumnDefinition {
-  const columnOptions: ColumnOptions = Reflect.getMetadata(
-    columnMetadataKey,
-    target,
-    propertyKey
-  );
-
-  return {
-    ...columnOptions,
-    sortable: columnOptions.sortable ?? true,
-    pipeArgs: columnOptions.pipeArgs ?? [],
-    value: propertyKey,
-  };
-}
-
-export function getColumnsDefinitions(target: any) {
-  const properties: string[] = Reflect.getMetadata(
+const registerProperty = (target: any, propertyKey: string): void => {
+  let properties: string[] = Reflect.getMetadata(
     modelPropertiesMetadataKey,
     target
   );
 
-  return properties.map((property) => getColumnDefinition(target, property));
-}
+  if (properties) {
+    properties.push(propertyKey);
+  } else {
+    properties = [propertyKey];
+    Reflect.defineMetadata(modelPropertiesMetadataKey, properties, target);
+  }
+};

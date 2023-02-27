@@ -1,7 +1,9 @@
 import "reflect-metadata";
-import { CrudTableModel, modelIdentityMetadataKey } from "../crud-table.model";
+import { CrudTableModel } from "../models/crud-table.model";
 
-export const ModelIdentity = () => (target: CrudTableModel, key: string) => {
+export const modelIdentityMetadataKey = Symbol("identity");
+
+export const Identity = () => (target: CrudTableModel, key: string) => {
   Reflect.defineMetadata(
     modelIdentityMetadataKey,
     key,

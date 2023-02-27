@@ -1,10 +1,12 @@
 import { DatePipe, TitleCasePipe } from "@angular/common";
-import { CrudTableModel } from "../crud-table/utils/crud-table.model";
 import { Column } from "../crud-table/utils/decorators/column.decorator";
-import { ModelIdentity } from "../crud-table/utils/decorators/identity.decorator";
+import { Identity } from "../crud-table/utils/decorators/identity.decorator";
+import { TableTitle } from "../crud-table/utils/decorators/table-title.decorator";
+import { CrudTableModel } from "../crud-table/utils/models/crud-table.model";
 
+@TableTitle("Example")
 export class ExampleModel extends CrudTableModel {
-  @ModelIdentity() id?: number;
+  @Identity() id?: number;
 
   @Column({ header: "Nombre" }) firstName?: string;
 
