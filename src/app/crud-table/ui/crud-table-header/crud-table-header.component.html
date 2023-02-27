@@ -1,0 +1,18 @@
+<th
+  *ngFor="let col of columns"
+  [pSortableColumn]="col.propertyKey"
+  [pSortableColumnDisabled]="!col.sortable"
+>
+  <div
+    style="display: flex; justify-content: space-between; align-items: center"
+  >
+    {{ col.header }}
+    <p-sortIcon *ngIf="col.sortable" [field]="col.propertyKey"></p-sortIcon>
+    <p-columnFilter
+      type="text"
+      [field]="col.propertyKey"
+      display="menu"
+      style="margin-left: auto"
+    ></p-columnFilter>
+  </div>
+</th>

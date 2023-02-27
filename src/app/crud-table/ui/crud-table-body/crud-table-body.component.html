@@ -1,0 +1,9 @@
+<td *ngFor="let col of columns">
+  <span class="p-column-title">{{ col.header }}</span>
+  <ng-container *ngIf="col.pipe">
+    {{ row[col.propertyKey] | dynamicPipe : col.pipe : col.pipeArgs }}
+  </ng-container>
+  <ng-container *ngIf="!col.pipe">
+    {{ row[col.propertyKey] }}
+  </ng-container>
+</td>
