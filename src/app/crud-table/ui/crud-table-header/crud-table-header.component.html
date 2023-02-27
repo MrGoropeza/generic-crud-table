@@ -3,9 +3,7 @@
   [pSortableColumn]="col.propertyKey"
   [pSortableColumnDisabled]="!col.sortable"
 >
-  <div
-    style="display: flex; justify-content: space-between; align-items: center"
-  >
+  <div class="flex justify-content-between align-items-center">
     {{ col.header }}
     <p-sortIcon *ngIf="col.sortable" [field]="col.propertyKey"></p-sortIcon>
     <p-columnFilter
