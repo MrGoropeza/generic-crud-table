@@ -1,4 +1,9 @@
-import { DatePipe, TitleCasePipe } from "@angular/common";
+import {
+  CurrencyPipe,
+  DatePipe,
+  PercentPipe,
+  TitleCasePipe,
+} from "@angular/common";
 import { Column } from "../crud-table/utils/decorators/column.decorator";
 import { Identity } from "../crud-table/utils/decorators/identity.decorator";
 import { TableTitle } from "../crud-table/utils/decorators/table-title.decorator";
@@ -22,13 +27,13 @@ export class ExampleModel extends CrudTableModel {
   })
   birthDay?: string;
 
-  // @Column({ header: "Porcentaje", pipe: PercentPipe, pipeArgs: ["1.0-4"] })
-  // percent?: number;
+  @Column({ header: "Porcentaje", pipe: PercentPipe, pipeArgs: ["1.0-4"] })
+  percent?: number;
 
-  // @Column({
-  //   header: "Precio",
-  //   pipe: CurrencyPipe,
-  //   pipeArgs: ["ARS", "code", "1.0-2"],
-  // })
-  // price?: number;
+  @Column({
+    header: "Precio",
+    pipe: CurrencyPipe,
+    pipeArgs: ["ARS ", "code", "1.0-2"],
+  })
+  price?: number;
 }
