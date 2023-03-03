@@ -1,9 +1,9 @@
-import { Type } from "@angular/core";
+import { PipeTransform, Type } from "@angular/core";
 
 export interface ColumnOptions {
   header: string;
   sortable?: boolean;
-  pipe?: Type<any>;
+  pipe?: Type<PipeTransform>;
   pipeArgs?: any[];
 }
 
