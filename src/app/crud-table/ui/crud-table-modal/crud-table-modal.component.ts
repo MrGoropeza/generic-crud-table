@@ -21,7 +21,7 @@ import { CrudTableModel } from "../../utils/models/crud-table.model";
   template: `
     <form [formGroup]="formGroup" (ngSubmit)="save()">
       <div *ngFor="let field of fields">
-        <span class="p-float-label mt-4">
+        <span class="p-float-label mt-6">
           <input
             pInputText
             type="text"
