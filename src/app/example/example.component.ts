@@ -6,11 +6,14 @@ import {
   TitleCasePipe,
 } from "@angular/common";
 import { Component, Injectable } from "@angular/core";
+import { Observable, of } from "rxjs";
 import { CrudTableComponent } from "../crud-table/crud-table.component";
 import { CrudService } from "../crud-table/data-access/crud.service";
 import { Column } from "../crud-table/utils/decorators/column.decorator";
+import { Label } from "../crud-table/utils/decorators/label.decorator";
 import { Table } from "../crud-table/utils/decorators/table.decorator";
 import { CrudTableModel } from "../crud-table/utils/models/crud-table.model";
+import { MultipleRecordsResponse } from "../crud-table/utils/models/multiple-records-response.model";
 
 @Component({
   selector: "app-example",
@@ -35,7 +38,7 @@ export class ExampleComponent {
   searchPlaceholder: "Buscar por nombre...",
 })
 export class ExampleModel extends CrudTableModel {
-  @Column({ header: "Nombre", editType: "text" }) firstName?: string;
+  @Label() @Column({ header: "Nombre", editType: "text" }) firstName?: string;
 
   @Column({ header: "Apellido", editType: "text", pipe: TitleCasePipe })
   lastName?: string;
@@ -75,5 +78,26 @@ export class ExampleService extends CrudService<ExampleModel> {
   constructor() {
     super("name");
     this.modelClass = ExampleModel;
+
+    this.exampleValue.firstName = "Nombre";
+    this.exampleValue.lastName = "Apellido";
+    this.exampleValue.email = "correo@org.com";
+    this.exampleValue.birthDay = new Date(Date.now()).toISOString();
+    this.exampleValue.percent = 0.5;
+    this.exampleValue.price = 1000;
+  }
+
+  private exampleValue = new ExampleModel();
+
+  override list(
+    page?: number,
+    perPage?: number,
+    sort?: string,
+    filter?: string
+  ): Observable<MultipleRecordsResponse<ExampleModel>> {
+    return of<MultipleRecordsResponse<ExampleModel>>({
+      items: Array(15).fill(this.exampleValue, 0),
+      totalItems: 15,
+    } as MultipleRecordsResponse<ExampleModel>);
   }
 }
