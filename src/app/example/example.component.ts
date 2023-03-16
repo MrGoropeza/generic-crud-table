@@ -11,6 +11,7 @@ import { CrudTableComponent } from "../crud-table/crud-table.component";
 import { CrudService } from "../crud-table/data-access/crud.service";
 import { Column } from "../crud-table/utils/decorators/column.decorator";
 import { Label } from "../crud-table/utils/decorators/label.decorator";
+import { Search } from "../crud-table/utils/decorators/search.decorator";
 import { Table } from "../crud-table/utils/decorators/table.decorator";
 import { CrudTableModel } from "../crud-table/utils/models/crud-table.model";
 import { MultipleRecordsResponse } from "../crud-table/utils/models/multiple-records-response.model";
@@ -38,7 +39,10 @@ export class ExampleComponent {
   searchPlaceholder: "Buscar por nombre...",
 })
 export class ExampleModel extends CrudTableModel {
-  @Label() @Column({ header: "Nombre", editType: "text" }) firstName?: string;
+  @Label()
+  @Search()
+  @Column({ header: "Nombre", editType: "text" })
+  firstName?: string;
 
   @Column({ header: "Apellido", editType: "text", pipe: TitleCasePipe })
   lastName?: string;
@@ -76,7 +80,7 @@ export class ExampleModel extends CrudTableModel {
 })
 export class ExampleService extends CrudService<ExampleModel> {
   constructor() {
-    super("name");
+    super();
     this.modelClass = ExampleModel;
 
     this.exampleValue.firstName = "Nombre";

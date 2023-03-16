@@ -8,7 +8,7 @@ import { SortOrder } from "../utils/models/sort.enum";
 export abstract class CrudService<Model extends CrudTableModel> {
   modelClass = CrudTableModel;
 
-  constructor(protected globalFilter: string) {}
+  constructor() {}
 
   lazyList(event: LazyLoadEvent): Observable<MultipleRecordsResponse<Model>> {
     let page = 0;
@@ -38,7 +38,9 @@ export abstract class CrudService<Model extends CrudTableModel> {
       Object.entries(event.filters).forEach((filterMeta, index) => {
         if (filterMeta[1].matchMode && filterMeta[1].value) {
           filter += `${index > 0 ? filterMeta[1].operator : ""} ${
-            filterMeta[0] === "global" ? this.globalFilter : filterMeta[0]
+            filterMeta[0] === "global"
+              ? new this.modelClass().SearchProperty
+              : filterMeta[0]
           } ${FilterMatchModes[filterMeta[1].matchMode]} "${
             filterMeta[1].value
           }"`;

@@ -5,6 +5,7 @@ import {
 } from "../decorators/column.decorator";
 import { modelIdentityMetadataKey } from "../decorators/identity.decorator";
 import { modelLabelMetadataKey } from "../decorators/label.decorator";
+import { modelSearchMetadataKey } from "../decorators/search.decorator";
 import {
   TableDefinition,
   tableTitleMetadataKey,
@@ -36,7 +37,26 @@ export class CrudTableModel {
     return key ? (this as any)[key] : "";
   }
 
-  getColumnDefinition(propertyKey: string): ColumnDefinition {
+  public get ColumnsDefinitions(): ColumnDefinition[] {
+    const properties: string[] = this.Properties;
+
+    return properties.map((property) => this.getColumnDefinition(property));
+  }
+
+  public get Properties(): string[] {
+    return Reflect.getMetadata(modelPropertiesMetadataKey, this);
+  }
+
+  public get SearchProperty(): string {
+    const key = Reflect.getMetadata(
+      modelSearchMetadataKey,
+      this.constructor,
+      modelSearchMetadataKey
+    );
+    return key ? (this as any)[key] : "";
+  }
+
+  protected getColumnDefinition(propertyKey: string): ColumnDefinition {
     const columnOptions: ColumnOptions = Reflect.getMetadata(
       columnMetadataKey,
       this,
@@ -49,15 +69,5 @@ export class CrudTableModel {
       pipeArgs: columnOptions.pipeArgs ?? [],
       propertyKey: propertyKey,
     };
-  }
-
-  public get ColumnsDefinitions(): ColumnDefinition[] {
-    const properties: string[] = this.Properties;
-
-    return properties.map((property) => this.getColumnDefinition(property));
-  }
-
-  public get Properties(): string[] {
-    return Reflect.getMetadata(modelPropertiesMetadataKey, this);
   }
 }
