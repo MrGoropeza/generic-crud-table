@@ -1,4 +1,4 @@
-import { Type } from "@angular/core";
+import { PipeTransform, Type } from "@angular/core";
 import { ValidatorFn } from "@angular/forms";
 
 export interface ColumnOptions {
@@ -6,7 +6,7 @@ export interface ColumnOptions {
   editType: "text";
   editValidators?: ValidatorFn[];
   sortable?: boolean;
-  pipe?: Type<any>;
+  pipe?: Type<PipeTransform>;
   pipeArgs?: any[];
 }
 
