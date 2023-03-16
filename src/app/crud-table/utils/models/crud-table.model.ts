@@ -3,12 +3,37 @@ import {
   columnMetadataKey,
   modelPropertiesMetadataKey,
 } from "../decorators/column.decorator";
-import { tableTitleMetadataKey } from "../decorators/table-title.decorator";
+import { modelIdentityMetadataKey } from "../decorators/identity.decorator";
+import { modelLabelMetadataKey } from "../decorators/label.decorator";
+import {
+  TableDefinition,
+  tableTitleMetadataKey,
+} from "../decorators/table.decorator";
 import { ColumnDefinition, ColumnOptions } from "./column-options.model";
 
 export class CrudTableModel {
-  getTableTitle(): string {
+  [key: string]: any;
+
+  public get id(): string {
+    const key = Reflect.getMetadata(
+      modelIdentityMetadataKey,
+      this.constructor,
+      modelIdentityMetadataKey
+    );
+    return key ? (this as any)[key] : "";
+  }
+
+  public get TableDefinition(): TableDefinition {
     return Reflect.getMetadata(tableTitleMetadataKey, this.constructor);
+  }
+
+  public get Label(): string {
+    const key = Reflect.getMetadata(
+      modelLabelMetadataKey,
+      this.constructor,
+      modelLabelMetadataKey
+    );
+    return key ? (this as any)[key] : "";
   }
 
   getColumnDefinition(propertyKey: string): ColumnDefinition {
@@ -26,12 +51,13 @@ export class CrudTableModel {
     };
   }
 
-  getColumnsDefinitions(): ColumnDefinition[] {
-    const properties: string[] = Reflect.getMetadata(
-      modelPropertiesMetadataKey,
-      this
-    );
+  public get ColumnsDefinitions(): ColumnDefinition[] {
+    const properties: string[] = this.Properties;
 
     return properties.map((property) => this.getColumnDefinition(property));
+  }
+
+  public get Properties(): string[] {
+    return Reflect.getMetadata(modelPropertiesMetadataKey, this);
   }
 }

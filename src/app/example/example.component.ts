@@ -1,35 +1,79 @@
-import { CommonModule } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
+import {
+  CommonModule,
+  CurrencyPipe,
+  DatePipe,
+  PercentPipe,
+  TitleCasePipe,
+} from "@angular/common";
+import { Component, Injectable } from "@angular/core";
 import { CrudTableComponent } from "../crud-table/crud-table.component";
-import { ExampleModel } from "./example.model";
+import { CrudService } from "../crud-table/data-access/crud.service";
+import { Column } from "../crud-table/utils/decorators/column.decorator";
+import { Table } from "../crud-table/utils/decorators/table.decorator";
+import { CrudTableModel } from "../crud-table/utils/models/crud-table.model";
 
 @Component({
   selector: "app-example",
   template: `
     <app-crud-table
-      [values]="exampleValues"
       [modelClass]="modelClass"
+      [service]="exampleService"
     ></app-crud-table>
   `,
   standalone: true,
   imports: [CommonModule, CrudTableComponent],
 })
-export class ExampleComponent implements OnInit {
+export class ExampleComponent {
   modelClass = new ExampleModel();
+  constructor(protected exampleService: ExampleService) {}
+}
 
-  exampleValues: ExampleModel[] = [];
+// Model
+@Table({
+  title: "Example",
+  singleRecordName: "Example",
+  searchPlaceholder: "Buscar por nombre...",
+})
+export class ExampleModel extends CrudTableModel {
+  @Column({ header: "Nombre", editType: "text" }) firstName?: string;
 
-  ngOnInit(): void {
-    this.exampleValues = Array<ExampleModel>(15).fill(
-      Object.assign(new ExampleModel(), {
-        id: 1,
-        firstName: "Gonzalo",
-        lastName: "Oropeza",
-        email: "goropeza8@gmail.com",
-        birthDay: Date.now(),
-        percent: 1.55555555,
-        price: 4999.9,
-      })
-    );
+  @Column({ header: "Apellido", editType: "text", pipe: TitleCasePipe })
+  lastName?: string;
+
+  @Column({ header: "Email", editType: "text" }) email?: string;
+
+  @Column({
+    header: "Fecha de Nacimiento",
+    editType: "text",
+    pipe: DatePipe,
+    pipeArgs: ["dd/MM/yyyy"],
+  })
+  birthDay?: string;
+
+  @Column({
+    header: "Porcentaje",
+    editType: "text",
+    pipe: PercentPipe,
+    pipeArgs: ["1.0-4"],
+  })
+  percent?: number;
+
+  @Column({
+    header: "Precio",
+    editType: "text",
+    pipe: CurrencyPipe,
+    pipeArgs: ["ARS ", "code", "1.0-2"],
+  })
+  price?: number;
+}
+
+// Service
+@Injectable({
+  providedIn: "root",
+})
+export class ExampleService extends CrudService<ExampleModel> {
+  constructor() {
+    super("name");
+    this.modelClass = ExampleModel;
   }
 }
