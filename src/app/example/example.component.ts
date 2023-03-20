@@ -6,15 +6,17 @@ import {
   TitleCasePipe,
 } from "@angular/common";
 import { Component, Injectable } from "@angular/core";
+import {
+  Column,
+  CrudService,
+  CrudTableComponent,
+  CrudTableModel,
+  Label,
+  MultipleRecordsResponse,
+  Search,
+  Table,
+} from "ngx-generic-crud-table";
 import { Observable, of } from "rxjs";
-import { CrudTableComponent } from "../crud-table/crud-table.component";
-import { CrudService } from "../crud-table/data-access/crud.service";
-import { Column } from "../crud-table/utils/decorators/column.decorator";
-import { Label } from "../crud-table/utils/decorators/label.decorator";
-import { Search } from "../crud-table/utils/decorators/search.decorator";
-import { Table } from "../crud-table/utils/decorators/table.decorator";
-import { CrudTableModel } from "../crud-table/utils/models/crud-table.model";
-import { MultipleRecordsResponse } from "../crud-table/utils/models/multiple-records-response.model";
 
 @Component({
   selector: "app-example",
