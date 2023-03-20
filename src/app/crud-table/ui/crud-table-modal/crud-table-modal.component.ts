@@ -69,7 +69,7 @@ export class CrudTableModalComponent<Model extends CrudTableModel>
   loading = false;
 
   constructor(
-    private fb: FormBuilder,
+    fb: FormBuilder,
     private messageService: MessageService,
     protected ref: DynamicDialogRef,
     protected config: DynamicDialogConfig<{
@@ -112,6 +112,7 @@ export class CrudTableModalComponent<Model extends CrudTableModel>
       this.service.update(this.formGroup.getRawValue()).subscribe({
         complete: () => {
           this.messageService.add({
+            key: "crud-table-toast",
             severity: "success",
             summary: "Éxito",
             detail: `Registro actualizado con éxito`,
@@ -121,6 +122,7 @@ export class CrudTableModalComponent<Model extends CrudTableModel>
         },
         error: (e) => {
           this.messageService.add({
+            key: "crud-table-toast",
             severity: "error",
             summary: "Error",
             detail: "Error al actualizar el registro, intente de nuevo.",
@@ -136,6 +138,7 @@ export class CrudTableModalComponent<Model extends CrudTableModel>
       this.service.create(this.formGroup.getRawValue()).subscribe({
         complete: () => {
           this.messageService.add({
+            key: "crud-table-toast",
             severity: "success",
             summary: "Éxito",
             detail: `Registro creado con éxito`,
@@ -145,6 +148,7 @@ export class CrudTableModalComponent<Model extends CrudTableModel>
         },
         error: (e) => {
           this.messageService.add({
+            key: "crud-table-toast",
             severity: "error",
             summary: "Error",
             detail: "Error al crear el registro, intente de nuevo.",
