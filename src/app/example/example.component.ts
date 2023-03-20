@@ -21,10 +21,10 @@ import { Observable, of } from "rxjs";
 @Component({
   selector: "app-example",
   template: `
-    <app-crud-table
+    <ngx-crud-table
       [modelClass]="modelClass"
       [service]="exampleService"
-    ></app-crud-table>
+    ></ngx-crud-table>
   `,
   standalone: true,
   imports: [CommonModule, CrudTableComponent],

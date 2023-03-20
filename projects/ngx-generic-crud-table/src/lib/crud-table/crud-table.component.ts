@@ -18,7 +18,7 @@ import { CrudTableModel } from "./utils/models/crud-table.model";
 import { DynamicPipe } from "./utils/pipes/dynamic.pipe";
 
 @Component({
-  selector: "app-crud-table",
+  selector: "ngx-crud-table",
   templateUrl: "./crud-table.component.html",
   styleUrls: ["./crud-table.component.scss"],
   standalone: true,
